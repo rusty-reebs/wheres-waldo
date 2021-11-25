@@ -5,6 +5,7 @@ import React from "react";
 const imageWaldo = require("../img/waldo-1.png");
 const imageWenda = require("../img/wenda-1.png");
 const imageWizard = require("../img/wizard-1.png");
+const imageOdlaw = require("../img/odlaw-1.png");
 
 const Header = (props) => {
   return (
@@ -25,6 +26,10 @@ const Header = (props) => {
       <div className="Header-char">
         <p>Wizard</p>
         <img src={imageWizard.default} alt="Wizard" />
+      </div>
+      <div className="Header-char">
+        <p>Odlaw</p>
+        <img src={imageOdlaw.default} alt="Odlaw" />
       </div>
       <h1>Time: 0:00</h1>
     </div>

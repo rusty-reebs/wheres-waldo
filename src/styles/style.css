@@ -5,6 +5,11 @@
   font-family: "Gluten", cursive;
 }
 
+html {
+  --popup-left: 0;
+  --popup-top: 0;
+}
+
 .App img {
   width: 100%;
   object-fit: contain;
@@ -12,7 +17,6 @@
 
 .Header {
   height: 10vh;
-  /* width: 100%; */
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -31,6 +35,47 @@
 }
 
 .Header img {
-  /* object-fit: scale-down; */
   height: 100%;
+  opacity: 1;
+}
+
+.Dropdown {
+  display: none;
+  display: block;
+  position: fixed;
+  left: var(--popup-left);
+  top: var(--popup-top);
+  /* left: --popup-left; */
+  /* top: --popup-top; */
+  /* left: 100px; */
+  /* top: 100px; */
+  height: auto;
+  width: auto;
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+}
+
+.Dropdown-table {
+  height: 100%;
+  width: auto;
+  display: grid;
+  grid-template-rows: 25% 25% 25% 25%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.Dropdown-row {
+  display: flex;
+  height: 100%;
+  padding: 0.4rem;
+  align-items: center;
+}
+
+.Dropdown-row img {
+  height: 2.2rem;
+}
+
+.Dropdown-row p {
+  margin-right: auto;
 }
