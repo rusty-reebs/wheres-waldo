@@ -1,5 +1,7 @@
 // App.js
 
+import React from "react";
+import Header from "./components/Header";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -18,6 +20,7 @@ const gameImage = require("./img/waldo-1.jpeg");
 const App = () => {
   return (
     <div className="App">
+      <Header />
       <img src={gameImage.default} alt="Not found" />
     </div>
   );
