@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import Dropdown from "./components/Dropdown";
 
 const firebaseConfig = {
@@ -15,6 +18,17 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+console.log(app);
+const db = getFirestore(app);
+console.log(db);
+
+const tester = async (db) => {
+  const myCollection = collection(db, "characters");
+  const charSnapshot = await getDocs(myCollection);
+  const charList = charSnapshot.docs.map((doc) => doc.data());
+  return charList;
+};
+console.log(tester(db));
 
 const gameImage = require("./img/waldo-1.jpeg");
 
@@ -24,17 +38,24 @@ const App = () => {
   const [clientY, setClientY] = useState(0);
 
   const handleClick = (e) => {
-    console.log("click!", "x", e.clientX, "y", e.clientY);
+    console.log("click! clientX", "x", e.clientX, "y", e.clientY);
+    console.log("click! pageX", "x", e.pageX, "y", e.pageY);
+    console.log("click! layerX", "x", e.layerX, "y", e.layerY);
     // call Dropdown
-    setClientX(e.clientX);
-    setClientY(e.clientY);
+    setClientX(e.pageX);
+    setClientY(e.pageY);
     setToggleDropdown(true);
   };
 
   return (
     <div className="App">
       <Header />
-      <img src={gameImage.default} alt="Not found" onClick={handleClick} />
+      <img
+        id={"main"}
+        src={gameImage.default}
+        alt="Not found"
+        onClick={handleClick}
+      />
       <Dropdown toggleDropdown={toggleDropdown} left={clientX} top={clientY} />
     </div>
   );

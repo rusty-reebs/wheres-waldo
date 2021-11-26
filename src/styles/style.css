@@ -42,13 +42,9 @@ html {
 .Dropdown {
   display: none;
   display: block;
-  position: fixed;
+  position: absolute;
   left: var(--popup-left);
   top: var(--popup-top);
-  /* left: --popup-left; */
-  /* top: --popup-top; */
-  /* left: 100px; */
-  /* top: 100px; */
   height: auto;
   width: auto;
   background-color: white;
@@ -61,15 +57,19 @@ html {
   width: auto;
   display: grid;
   grid-template-rows: 25% 25% 25% 25%;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
 .Dropdown-row {
   display: flex;
   height: 100%;
   padding: 0.4rem;
+  padding-right: 0.6rem;
   align-items: center;
+  cursor: pointer;
+}
+
+.Dropdown-row:hover {
+  background-color: lightgrey;
 }
 
 .Dropdown-row img {

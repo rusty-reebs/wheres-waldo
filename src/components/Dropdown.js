@@ -8,17 +8,17 @@ const imageWizard = require("../img/wizard-1.png");
 const imageOdlaw = require("../img/odlaw-1.png");
 
 const Dropdown = (props) => {
-  let cssProperties = {};
-  cssProperties["--popup-left"] = props.left + 20 + "px";
-  cssProperties["--popup-top"] = props.top + 10 + "px";
+  let popupLocation = {};
+  popupLocation["--popup-left"] = props.left + 20 + "px";
+  popupLocation["--popup-top"] = props.top + 10 + "px";
   console.log(props.left);
   console.log(props.top);
-  console.log("cssProperties", cssProperties);
+  console.log("popupLocation", popupLocation);
 
   return (
     <div>
       {props.toggleDropdown && (
-        <div className="Dropdown" style={cssProperties}>
+        <div className="Dropdown" style={popupLocation}>
           <div className="Dropdown-table">
             {/* set the x and y with props? */}
             <div className="Dropdown-row">
