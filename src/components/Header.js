@@ -8,6 +8,8 @@ const imageWizard = require("../img/wizard-1.png");
 const imageOdlaw = require("../img/odlaw-1.png");
 
 const Header = (props) => {
+  const charState = props.charState;
+
   return (
     <div className="Header">
       <div className="Header-title">
@@ -15,6 +17,7 @@ const Header = (props) => {
         <p>A project coded with React and Firebase</p>
       </div>
       <h3>Left to find:</h3>
+      {/* check found state, if true, then change opacity */}
       <div className="Header-char">
         <p>Waldo</p>
         <img src={imageWaldo.default} alt="Waldo" />

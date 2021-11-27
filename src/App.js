@@ -2,61 +2,92 @@
 
 import React, { useState } from "react";
 import Header from "./components/Header";
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
 import Dropdown from "./components/Dropdown";
+// import getCharCoords from "./firebase";
+import charsArray from "./firebase";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDibCxXn_EsXjSIDfEsD2Dq1ZjZuiLhwtM",
-  authDomain: "wheres-waldo-82629.firebaseapp.com",
-  projectId: "wheres-waldo-82629",
-  storageBucket: "wheres-waldo-82629.appspot.com",
-  messagingSenderId: "1042527864001",
-  appId: "1:1042527864001:web:9b010bf07fabab106e0040",
-};
-
-const app = initializeApp(firebaseConfig);
-console.log(app);
-const db = getFirestore(app);
-console.log(db);
-
-const tester = async (db) => {
-  const myCollection = collection(db, "characters");
-  const charSnapshot = await getDocs(myCollection);
-  const charList = charSnapshot.docs.map((doc) => doc.data());
-  return charList;
-};
-console.log(tester(db));
+// const charCoords = getCharCoords();
+// console.log(charCoords); // object with character coords
+console.log(charsArray);
 
 const gameImage = require("./img/waldo-1.jpeg");
 
+const characterState = [
+  {
+    name: "Waldo",
+    found: false,
+  },
+  {
+    name: "Wenda",
+    found: false,
+  },
+  {
+    name: "Wizard",
+    found: false,
+  },
+  {
+    name: "Odlaw",
+    found: false,
+  },
+];
+
+// leave cursor as crosshair, but put a circle around character when clicked
+let rect;
+
 const App = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [clientX, setClientX] = useState(0);
-  const [clientY, setClientY] = useState(0);
+  const [dropdownX, setDropdownX] = useState(0);
+  const [dropdownY, setDropdownY] = useState(0);
+  const [charState, setCharState] = useState(characterState);
+  // const [rect, setRect] = useState({});
+  const [userCoords, setUserCoords] = useState([]);
+
+  // const main = document.getElementById("main");
+
+  // useEffect(() => {
+  //   console.log(main);
+  //   console.log(main.getBoundingClientRect());
+  // });
+
+  // let userCoords = [];
 
   const handleClick = (e) => {
-    console.log("click! clientX", "x", e.clientX, "y", e.clientY);
-    console.log("click! pageX", "x", e.pageX, "y", e.pageY);
-    console.log("click! layerX", "x", e.layerX, "y", e.layerY);
+    // userCoords = [];
+    // console.log("click! clientX", "x", e.clientX, "y", e.clientY);
+    // console.log("click! pageX", "x", e.pageX, "y", e.pageY);
+    rect = e.target.getBoundingClientRect();
+    // console.log("rect facts", rect);
+    let x = e.clientX - rect.left; //x position within the element.
+    let y = e.clientY - rect.top; //y position within the element.
+    console.log("Left? : " + x + " ; Top? : " + y + ".");
+    // userCoords.push(x);
+    // userCoords.push(y);
+    setUserCoords([x, y]);
+    // console.log("userCoords", userCoords);
     // call Dropdown
-    setClientX(e.pageX);
-    setClientY(e.pageY);
-    setToggleDropdown(true);
+    setDropdownX(e.pageX);
+    setDropdownY(e.pageY);
+    toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
   };
 
   return (
     <div className="App">
-      <Header />
+      <Header charState={charState} />
       <img
         id={"main"}
         src={gameImage.default}
         alt="Not found"
         onClick={handleClick}
       />
-      <Dropdown toggleDropdown={toggleDropdown} left={clientX} top={clientY} />
+      <Dropdown
+        charState={charState}
+        toggleDropdown={toggleDropdown}
+        left={dropdownX}
+        top={dropdownY}
+        userCoords={userCoords}
+        charLocations={charsArray}
+        rect={rect}
+      />
     </div>
   );
 };
