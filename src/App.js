@@ -72,7 +72,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header charState={charState} />
+      <Header charState={charState} charLocations={charsArray} />
       <img
         id={"main"}
         src={gameImage.default}

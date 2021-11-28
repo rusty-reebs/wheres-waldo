@@ -2,10 +2,10 @@
 
 import React from "react";
 
-const imageWaldo = require("../img/waldo-1.png");
-const imageWenda = require("../img/wenda-1.png");
-const imageWizard = require("../img/wizard-1.png");
-const imageOdlaw = require("../img/odlaw-1.png");
+// const imageWaldo = require("../img/waldo-1.png");
+// const imageWenda = require("../img/wenda-1.png");
+// const imageWizard = require("../img/wizard-1.png");
+// const imageOdlaw = require("../img/odlaw-1.png");
 
 const Dropdown = (props) => {
   const charLocations = props.charLocations;
@@ -21,21 +21,16 @@ const Dropdown = (props) => {
 
   const checkForMatch = (char) => {
     if (props.toggleDropdown) {
-      console.log("userX", userX);
-      console.log("userY", userY);
+      //   console.log("userX", userX);
+      //   console.log("userY", userY);
       let character = charLocations.find((charact) => charact.name === char);
-      console.log(character);
-
-      //   console.log(character.name, "x min", rect.width * 0.4912 * 0.9);
-      //   console.log(character.name, "x max", rect.width * 0.4912 * 1.1);
-      //   console.log(character.name, "y min", rect.height * 0.41619 * 0.9);
-      //   console.log(character.name, "y max", rect.height * 0.41619 * 1.1);
+      //   console.log(character);
 
       if (
-        userX > rect.width * character.coords.x * 0.9 &&
-        userX < rect.width * character.coords.x * 1.1 &&
-        userY > rect.height * character.coords.y * 0.9 &&
-        userY < rect.height * character.coords.y * 1.1
+        userX > rect.width * character.coords.x * 0.95 &&
+        userX < rect.width * character.coords.x * 1.05 &&
+        userY > rect.height * character.coords.y * 0.95 &&
+        userY < rect.height * character.coords.y * 1.05
       ) {
         console.log("you found", character.name);
       }
@@ -50,7 +45,17 @@ const Dropdown = (props) => {
         <div className="Dropdown" style={popupLocation}>
           <div className="Dropdown-table">
             {/* check found state, if true, then do not render */}
-            <div className="Dropdown-row" onClick={checkForMatch("Waldo")}>
+            {charLocations.map((char) => (
+              <div
+                key={char.name}
+                className="Dropdown-row"
+                onClick={checkForMatch(char.name)}
+              >
+                <img src={char.coords.image} alt={char.name} />
+                <p>{char.name}</p>
+              </div>
+            ))}
+            {/* <div className="Dropdown-row" onClick={checkForMatch("Waldo")}>
               <img src={imageWaldo.default} alt="Waldo" />
               <p>Waldo</p>
             </div>
@@ -65,7 +70,7 @@ const Dropdown = (props) => {
             <div className="Dropdown-row">
               <img src={imageOdlaw.default} alt="Odlaw" />
               <p>Odlaw</p>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
