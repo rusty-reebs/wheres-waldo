@@ -1,8 +1,6 @@
 // firebase.js
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-// import { doc, getDoc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -16,16 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-// const getCharCoords = async (db) => {
-//   const myCollection = collection(db, "characters");
-//   const charSnapshot = await getDocs(myCollection);
-//   const charList = charSnapshot.docs.map((doc) => doc.data());
-//   return charList;
-// };
-// console.log(tester(db));
-
-// const myTest = () => getCharCoords(db);
 
 let charsArray = [];
 
@@ -42,8 +30,6 @@ const getChars = async (db) => {
   return charsArray;
 };
 
-// const getCharCoords = () => getChars(db);
 getChars(db);
 
-// export default getCharCoords;
 export default charsArray;

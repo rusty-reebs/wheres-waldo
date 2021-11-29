@@ -2,15 +2,11 @@
 
 import React from "react";
 
-// const imageWaldo = require("../img/waldo-1.png");
-// const imageWenda = require("../img/wenda-1.png");
-// const imageWizard = require("../img/wizard-1.png");
-// const imageOdlaw = require("../img/odlaw-1.png");
-
 const Header = (props) => {
-  const charState = props.charState;
-  const charLocations = props.charLocations;
-  //! maybe it doesn't have the info from firebase when it tries to render
+  const characterState = props.characterState;
+
+  const charOpacity = {};
+  charOpacity["--char-opacity"] = 1;
 
   return (
     <div className="Header">
@@ -20,28 +16,12 @@ const Header = (props) => {
       </div>
       <h3>Left to find:</h3>
       {/* check found state, if true, then change opacity */}
-      {charLocations.map((char) => (
-        <div key={char.name} className="Header-char">
+      {characterState.map((char) => (
+        <div key={char.name} className="Header-char" style={charOpacity}>
           <p>{char.name}</p>
-          <img src={char.coords.image} alt={char.name} />
+          <img src={char.image.default} alt={char.name} />
         </div>
       ))}
-      {/* <div className="Header-char">
-        <p>Waldo</p>
-        <img src={imageWaldo.default} alt="Waldo" />
-      </div>
-      <div className="Header-char">
-        <p>Wenda</p>
-        <img src={imageWenda.default} alt="Wenda" />
-      </div>
-      <div className="Header-char">
-        <p>Wizard</p>
-        <img src={imageWizard.default} alt="Wizard" />
-      </div>
-      <div className="Header-char">
-        <p>Odlaw</p>
-        <img src={imageOdlaw.default} alt="Odlaw" />
-      </div> */}
       <h1>Time: 0:00</h1>
     </div>
   );

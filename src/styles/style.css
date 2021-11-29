@@ -1,3 +1,5 @@
+/* leave cursor as crosshair, but put a circle around character when clicked */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,8 +8,9 @@
 }
 
 html {
-  --popup-left: 0;
-  --popup-top: 0;
+  --dropdown-left: 0;
+  --dropdown-top: 0;
+  --char-opacity: 1;
 }
 
 .App img {
@@ -34,6 +37,7 @@ html {
   display: flex;
   height: 100%;
   align-items: center;
+  opacity: var(--char-opacity);
 }
 
 .Header img {
@@ -46,8 +50,8 @@ html {
   display: none;
   display: block;
   position: absolute;
-  left: var(--popup-left);
-  top: var(--popup-top);
+  left: var(--dropdown-left);
+  top: var(--dropdown-top);
   height: auto;
   width: auto;
   background-color: white;

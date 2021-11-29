@@ -1,93 +1,70 @@
 // App.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
-// import getCharCoords from "./firebase";
 import charsArray from "./firebase";
 
-// const charCoords = getCharCoords();
-// console.log(charCoords); // object with character coords
 console.log(charsArray);
 
 const gameImage = require("./img/waldo-1.jpeg");
+const imageWaldo = require("./img/waldo-1.png");
+const imageWenda = require("./img/wenda-1.png");
+const imageWizard = require("./img/wizard-1.png");
+const imageOdlaw = require("./img/odlaw-1.png");
 
-const characterState = [
+const charState = [
   {
     name: "Waldo",
     found: false,
+    image: imageWaldo,
   },
   {
     name: "Wenda",
     found: false,
+    image: imageWenda,
   },
   {
     name: "Wizard",
     found: false,
+    image: imageWizard,
   },
   {
     name: "Odlaw",
     found: false,
+    image: imageOdlaw,
   },
 ];
 
-// leave cursor as crosshair, but put a circle around character when clicked
-let rect;
+let gameSize;
 
 const App = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [dropdownX, setDropdownX] = useState(0);
-  const [dropdownY, setDropdownY] = useState(0);
-  const [charState, setCharState] = useState(characterState);
-  // const [rect, setRect] = useState({});
+  const [characterState, setCharacterState] = useState(charState);
   const [userCoords, setUserCoords] = useState([]);
 
-  // const main = document.getElementById("main");
-
-  // useEffect(() => {
-  //   console.log(main);
-  //   console.log(main.getBoundingClientRect());
-  // });
-
-  // let userCoords = [];
-
   const handleClick = (e) => {
-    // userCoords = [];
-    // console.log("click! clientX", "x", e.clientX, "y", e.clientY);
-    // console.log("click! pageX", "x", e.pageX, "y", e.pageY);
-    rect = e.target.getBoundingClientRect();
-    // console.log("rect facts", rect);
-    let x = e.clientX - rect.left; //x position within the element.
-    let y = e.clientY - rect.top; //y position within the element.
+    gameSize = e.target.getBoundingClientRect();
+    let x = e.clientX - gameSize.left; //x position within the element.
+    let y = e.clientY - gameSize.top; //y position within the element.
     console.log("Left? : " + x + " ; Top? : " + y + ".");
-    // userCoords.push(x);
-    // userCoords.push(y);
     setUserCoords([x, y]);
-    // console.log("userCoords", userCoords);
-    // call Dropdown
-    setDropdownX(e.pageX);
-    setDropdownY(e.pageY);
     toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
   };
 
   return (
     <div className="App">
-      <Header charState={charState} charLocations={charsArray} />
-      <img
-        id={"main"}
-        src={gameImage.default}
-        alt="Not found"
-        onClick={handleClick}
-      />
-      <Dropdown
-        charState={charState}
-        toggleDropdown={toggleDropdown}
-        left={dropdownX}
-        top={dropdownY}
-        userCoords={userCoords}
-        charLocations={charsArray}
-        rect={rect}
-      />
+      <Header characterState={characterState} />
+      <img src={gameImage.default} alt="Not found" onClick={handleClick} />
+      {toggleDropdown && (
+        <Dropdown
+          characterState={characterState}
+          toggleDropdown={toggleDropdown}
+          userCoords={userCoords}
+          charLocations={charsArray}
+          gameSize={gameSize}
+        />
+      )}
     </div>
   );
 };
