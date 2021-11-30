@@ -4,7 +4,7 @@ import React from "react";
 
 const Dropdown = (props) => {
   const charLocations = props.charLocations;
-  const gameSize = props.gameSize;
+  const gameDimensions = props.gameDimensions;
   let userX = props.userCoords[0];
   let userY = props.userCoords[1];
 
@@ -12,19 +12,40 @@ const Dropdown = (props) => {
   dropdownLocation["--dropdown-left"] = userX + 20 + "px";
   dropdownLocation["--dropdown-top"] = userY + 90 + "px";
 
-  //? useEffect componentdidmount
-
   const checkForMatch = (char) => {
     console.log("you clicked a row!", char);
     // if (props.toggleDropdown) {
     let character = charLocations.find((charact) => charact.name === char);
     if (
-      userX > gameSize.width * character.coords.x * 0.95 &&
-      userX < gameSize.width * character.coords.x * 1.05 &&
-      userY > gameSize.height * character.coords.y * 0.95 &&
-      userY < gameSize.height * character.coords.y * 1.05
+      userX > gameDimensions.width * character.coords.x * 0.95 &&
+      userX < gameDimensions.width * character.coords.x * 1.05 &&
+      userY > gameDimensions.height * character.coords.y * 0.95 &&
+      userY < gameDimensions.height * character.coords.y * 1.05
     ) {
       console.log("you found", character.name);
+      setTimeout(() => {
+        props.setToggleDropdown(false);
+      }, 500);
+      console.log("on");
+      props.handleMessage("You found " + character.name + "!");
+      props.setToggleMessageBox(true);
+      setTimeout(() => {
+        console.log("off");
+        props.setToggleMessageBox(false);
+        props.handleFound(character.name);
+        console.log(props.characterState);
+      }, 1200);
+    } else {
+      setTimeout(() => {
+        props.setToggleDropdown(false);
+      }, 500);
+      console.log("on");
+      props.handleMessage("That's not " + character.name + "!");
+      props.setToggleMessageBox(true);
+      setTimeout(() => {
+        console.log("off");
+        props.setToggleMessageBox(false);
+      }, 1200);
     }
     // }
   };

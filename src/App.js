@@ -1,8 +1,9 @@
 // App.js
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
+import Message from "./components/Message";
 import charsArray from "./firebase";
 
 console.log(charsArray);
@@ -36,17 +37,40 @@ const charState = [
   },
 ];
 
-let gameSize;
+let gameDimensions;
 
 const App = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [characterState, setCharacterState] = useState(charState);
   const [userCoords, setUserCoords] = useState([]);
+  const [toggleMessageBox, setToggleMessageBox] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // const toggleMessage = () => {
+  // setToggleMessageBox(!toggleMessageBox);
+  // };
+  const handleMessage = (msg) => {
+    setMessage(msg);
+  };
+
+  const handleFound = (name) => {
+    setCharacterState((state) => {
+      const characters = state.map((char) => {
+        if (char.name === name) {
+          char.found = true;
+          return char;
+        } else {
+          return char;
+        }
+      });
+      return characters;
+    });
+  };
 
   const handleClick = (e) => {
-    gameSize = e.target.getBoundingClientRect();
-    let x = e.clientX - gameSize.left; //x position within the element.
-    let y = e.clientY - gameSize.top; //y position within the element.
+    gameDimensions = e.target.getBoundingClientRect();
+    let x = e.clientX - gameDimensions.left; //x position within the element.
+    let y = e.clientY - gameDimensions.top; //y position within the element.
     console.log("Left? : " + x + " ; Top? : " + y + ".");
     setUserCoords([x, y]);
     toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
@@ -60,11 +84,17 @@ const App = () => {
         <Dropdown
           characterState={characterState}
           toggleDropdown={toggleDropdown}
+          setToggleDropdown={setToggleDropdown}
           userCoords={userCoords}
           charLocations={charsArray}
-          gameSize={gameSize}
+          gameDimensions={gameDimensions}
+          toggleMessageBox={toggleMessageBox}
+          setToggleMessageBox={setToggleMessageBox}
+          handleMessage={handleMessage}
+          handleFound={handleFound}
         />
       )}
+      {toggleMessageBox && <Message message={message} />}
     </div>
   );
 };
