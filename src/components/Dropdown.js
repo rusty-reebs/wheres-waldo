@@ -14,7 +14,6 @@ const Dropdown = (props) => {
 
   const checkForMatch = (char) => {
     console.log("you clicked a row!", char);
-    // if (props.toggleDropdown) {
     let character = charLocations.find((charact) => charact.name === char);
     if (
       userX > gameDimensions.width * character.coords.x * 0.95 &&
@@ -47,23 +46,26 @@ const Dropdown = (props) => {
         props.setToggleMessageBox(false);
       }, 1200);
     }
-    // }
   };
 
   return (
     <div>
       <div className="Dropdown" style={dropdownLocation}>
         <div className="Dropdown-table">
-          {charLocations.map((char) => (
-            <div
-              key={char.name}
-              className="Dropdown-row"
-              onClick={() => checkForMatch(char.name)}
-            >
-              <img src={char.coords.image} alt={char.name} />
-              <p>{char.name}</p>
-            </div>
-          ))}
+          {props.characterState.map((char) => {
+            return !char.found ? (
+              <div
+                key={char.name}
+                className="Dropdown-row"
+                onClick={() => checkForMatch(char.name)}
+              >
+                <img src={char.image2} alt={char.name} />
+                <p>{char.name}</p>
+              </div>
+            ) : (
+              false
+            );
+          })}
         </div>
       </div>
     </div>
