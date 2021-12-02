@@ -1,28 +1,34 @@
 // Header.js
 
 import React from "react";
+import Timer from "./Timer";
 
 const Header = (props) => {
   const characterState = props.characterState;
 
-  const charOpacity = {};
-  charOpacity["--char-opacity"] = 1;
-
   return (
     <div className="Header">
       <div className="Header-title">
-        <h1>Where's Waldo?</h1>
+        <div>
+          <h1>
+            <span style={{ color: "red" }}>Where's </span>
+            <span style={{ color: "#1da1f2" }}>Waldo?</span>
+          </h1>
+        </div>
         <p>A project coded with React and Firebase</p>
       </div>
       <h3>Left to find:</h3>
-      {/* check found state, if true, then change opacity */}
       {characterState.map((char) => (
-        <div key={char.name} className="Header-char" style={charOpacity}>
+        <div
+          key={char.name}
+          className="Header-char"
+          style={char.found ? { opacity: 0.2 } : { opacity: 1 }}
+        >
           <p>{char.name}</p>
-          <img src={char.image.default} alt={char.name} />
+          <img src={char.image} alt={char.name} />
         </div>
       ))}
-      <h1>Time: 0:00</h1>
+      <Timer timerOn={props.timerOn} />
     </div>
   );
 };

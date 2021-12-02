@@ -10,7 +10,7 @@
 html {
   --dropdown-left: 0;
   --dropdown-top: 0;
-  --char-opacity: 1;
+  --char-opacity: 0.4;
 }
 
 .App img {
@@ -20,6 +20,8 @@ html {
 }
 
 .Header {
+  position: sticky;
+  top: 0;
   background-color: whitesmoke;
   height: 10vh;
   display: flex;
@@ -33,17 +35,40 @@ html {
   flex-direction: column;
 }
 
+.Header-title h1 {
+  text-shadow: 1px 1px black;
+
+  /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
+}
+
 .Header-char {
   display: flex;
   height: 100%;
   align-items: center;
-  opacity: var(--char-opacity);
+  /* opacity: var(--char-opacity); */
 }
 
 .Header img {
   height: 100%;
-  opacity: 1;
+  /* opacity: 1; */
   cursor: default;
+}
+
+.Timer {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.Timer-minutes {
+  width: 2.5rem;
+  text-align: center;
+}
+
+.Timer-seconds {
+  width: 2.5rem;
+  text-align: center;
 }
 
 .Dropdown {
@@ -70,6 +95,7 @@ html {
 .Dropdown-row {
   display: flex;
   height: 100%;
+  width: 100%;
   padding: 0.4rem;
   padding-right: 0.6rem;
   align-items: center;

@@ -1,6 +1,6 @@
 // App.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
 import Message from "./components/Message";
@@ -9,35 +9,35 @@ import charsArray from "./firebase";
 console.log(charsArray);
 
 const gameImage = require("./img/waldo-1.jpeg");
-const imageWaldo = require("./img/waldo-1.png");
-const imageWenda = require("./img/wenda-1.png");
-const imageWizard = require("./img/wizard-1.png");
-const imageOdlaw = require("./img/odlaw-1.png");
+// const imageWaldo = require("./img/waldo-1.png");
+// const imageWenda = require("./img/wenda-1.png");
+// const imageWizard = require("./img/wizard-1.png");
+// const imageOdlaw = require("./img/odlaw-1.png");
 
 const charState = [
   {
     name: "Waldo",
     found: false,
-    image: imageWaldo,
-    image2: "/img/waldo-1.png",
+    // image2: imageWaldo,
+    image: "/img/waldo-1.png",
   },
   {
     name: "Wenda",
     found: false,
-    image: imageWenda,
-    image2: "/img/wenda-1.png",
+    // image2: imageWenda,
+    image: "/img/wenda-1.png",
   },
   {
     name: "Wizard",
     found: false,
-    image: imageWizard,
-    image2: "/img/wizard-1.png",
+    // image2: imageWizard,
+    image: "/img/wizard-1.png",
   },
   {
     name: "Odlaw",
     found: false,
-    image: imageOdlaw,
-    image2: "/img/odlaw-1.png",
+    // image2: imageOdlaw,
+    image: "/img/odlaw-1.png",
   },
 ];
 
@@ -49,6 +49,31 @@ const App = () => {
   const [userCoords, setUserCoords] = useState([]);
   const [toggleMessageBox, setToggleMessageBox] = useState(false);
   const [message, setMessage] = useState("");
+  const [timerOn, setTimerOn] = useState(false);
+
+  const gameStart = () => {
+    handleMessage("Find the characters!");
+    setToggleMessageBox(true);
+    setTimeout(() => {
+      setToggleMessageBox(false);
+    }, 2000);
+  };
+
+  const gameEnd = () => {
+    setTimerOn(false);
+    handleMessage("Nice work! A new high score!");
+    setToggleMessageBox(true);
+    setTimeout(() => {
+      setToggleMessageBox(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    gameStart();
+    setTimeout(() => {
+      setTimerOn(true);
+    }, 1500);
+  }, []);
 
   const handleMessage = (msg) => {
     setMessage(msg);
@@ -66,20 +91,26 @@ const App = () => {
       });
       return characters;
     });
+    if (characterState.every((char) => char.found === true)) {
+      console.log("game over");
+      gameEnd();
+    }
   };
 
   const handleClick = (e) => {
-    gameDimensions = e.target.getBoundingClientRect();
-    let x = e.clientX - gameDimensions.left; //x position within the element.
-    let y = e.clientY - gameDimensions.top; //y position within the element.
-    console.log("Left? : " + x + " ; Top? : " + y + ".");
-    setUserCoords([x, y]);
-    toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
+    if (timerOn) {
+      gameDimensions = e.target.getBoundingClientRect();
+      let x = e.clientX - gameDimensions.left; //x position within the element.
+      let y = e.clientY - gameDimensions.top; //y position within the element.
+      console.log("Left? : " + x + " ; Top? : " + y + ".");
+      setUserCoords([x, y]);
+      toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
+    } else return;
   };
 
   return (
     <div className="App">
-      <Header characterState={characterState} />
+      <Header characterState={characterState} timerOn={timerOn} />
       <img src={gameImage.default} alt="Not found" onClick={handleClick} />
       {toggleDropdown && (
         <Dropdown

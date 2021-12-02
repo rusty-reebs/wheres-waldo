@@ -25,26 +25,22 @@ const Dropdown = (props) => {
       setTimeout(() => {
         props.setToggleDropdown(false);
       }, 500);
-      console.log("on");
       props.handleMessage("You found " + character.name + "!");
       props.setToggleMessageBox(true);
       setTimeout(() => {
-        console.log("off");
         props.setToggleMessageBox(false);
         props.handleFound(character.name);
         console.log(props.characterState);
-      }, 1200);
+      }, 1500);
     } else {
       setTimeout(() => {
         props.setToggleDropdown(false);
       }, 500);
-      console.log("on");
       props.handleMessage("That's not " + character.name + "!");
       props.setToggleMessageBox(true);
       setTimeout(() => {
-        console.log("off");
         props.setToggleMessageBox(false);
-      }, 1200);
+      }, 1500);
     }
   };
 
@@ -59,7 +55,7 @@ const Dropdown = (props) => {
                 className="Dropdown-row"
                 onClick={() => checkForMatch(char.name)}
               >
-                <img src={char.image2} alt={char.name} />
+                <img src={char.image} alt={char.name} />
                 <p>{char.name}</p>
               </div>
             ) : (
