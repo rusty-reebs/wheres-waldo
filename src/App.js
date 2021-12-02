@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
 import Message from "./components/Message";
-import charsArray from "./firebase";
+import { getTimeString } from "./components/Timer";
+import { charsArray, addHighScore } from "./firebase";
 
 console.log(charsArray);
 
@@ -49,7 +50,10 @@ const App = () => {
   const [userCoords, setUserCoords] = useState([]);
   const [toggleMessageBox, setToggleMessageBox] = useState(false);
   const [message, setMessage] = useState("");
+  const [toggleInput, setToggleInput] = useState(false);
   const [timerOn, setTimerOn] = useState(false);
+  const [time, setTime] = useState(0);
+  const [userName, setUserName] = useState("");
 
   const gameStart = () => {
     handleMessage("Find the characters!");
@@ -63,9 +67,21 @@ const App = () => {
     setTimerOn(false);
     handleMessage("Nice work! A new high score!");
     setToggleMessageBox(true);
-    setTimeout(() => {
-      setToggleMessageBox(false);
-    }, 2000);
+    setToggleInput(true);
+    // load high scoresheet
+  };
+
+  const handleInputChange = (e) => {
+    setUserName(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addHighScore(userName, time / 1000, getTimeString(time));
+    setUserName("");
+    setToggleInput(false);
+    setToggleMessageBox(false);
+    // load high scoresheet
   };
 
   useEffect(() => {
@@ -110,7 +126,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header characterState={characterState} timerOn={timerOn} />
+      <Header
+        characterState={characterState}
+        timerOn={timerOn}
+        time={time}
+        setTime={setTime}
+      />
       <img src={gameImage.default} alt="Not found" onClick={handleClick} />
       {toggleDropdown && (
         <Dropdown
@@ -126,7 +147,15 @@ const App = () => {
           handleFound={handleFound}
         />
       )}
-      {toggleMessageBox && <Message message={message} />}
+      {toggleMessageBox && (
+        <Message
+          message={message}
+          toggleInput={toggleInput}
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+          userName={userName}
+        />
+      )}
     </div>
   );
 };

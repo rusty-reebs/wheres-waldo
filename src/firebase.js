@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDibCxXn_EsXjSIDfEsD2Dq1ZjZuiLhwtM",
@@ -32,4 +33,13 @@ const getChars = async (db) => {
 
 getChars(db);
 
-export default charsArray;
+const addHighScore = (user, numberSeconds, timeString) => {
+  const newHighScore = doc(db, "highscores", user);
+  setDoc(
+    newHighScore,
+    { name: user, seconds: numberSeconds, time: timeString },
+    { merge: true }
+  );
+};
+
+export { charsArray, addHighScore };

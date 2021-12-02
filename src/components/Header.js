@@ -28,7 +28,11 @@ const Header = (props) => {
           <img src={char.image} alt={char.name} />
         </div>
       ))}
-      <Timer timerOn={props.timerOn} />
+      <Timer
+        timerOn={props.timerOn}
+        time={props.time}
+        setTime={props.setTime}
+      />
     </div>
   );
 };
