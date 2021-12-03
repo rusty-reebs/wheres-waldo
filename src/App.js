@@ -5,7 +5,8 @@ import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
 import Message from "./components/Message";
 import { getTimeString } from "./components/Timer";
-import { charsArray, addHighScore } from "./firebase";
+import { charsArray, addHighScore, fetchHighScores, topTen } from "./firebase";
+import Highscores from "./components/Highscores";
 
 console.log(charsArray);
 
@@ -18,7 +19,7 @@ const gameImage = require("./img/waldo-1.jpeg");
 const charState = [
   {
     name: "Waldo",
-    found: false,
+    found: true,
     // image2: imageWaldo,
     image: "/img/waldo-1.png",
   },
@@ -30,7 +31,7 @@ const charState = [
   },
   {
     name: "Wizard",
-    found: false,
+    found: true,
     // image2: imageWizard,
     image: "/img/wizard-1.png",
   },
@@ -54,8 +55,10 @@ const App = () => {
   const [timerOn, setTimerOn] = useState(false);
   const [time, setTime] = useState(0);
   const [userName, setUserName] = useState("");
+  const [showHighScores, setShowHighScores] = useState(false);
 
   const gameStart = () => {
+    fetchHighScores();
     handleMessage("Find the characters!");
     setToggleMessageBox(true);
     setTimeout(() => {
@@ -65,9 +68,13 @@ const App = () => {
 
   const gameEnd = () => {
     setTimerOn(false);
-    handleMessage("Nice work! A new high score!");
-    setToggleMessageBox(true);
-    setToggleInput(true);
+    if (time / 1000 < topTen[9].seconds) {
+      handleMessage("Nice work! A new high score!");
+      setToggleMessageBox(true);
+      setToggleInput(true);
+    } else {
+      setShowHighScores(true);
+    }
     // load high scoresheet
   };
 
@@ -81,7 +88,13 @@ const App = () => {
     setUserName("");
     setToggleInput(false);
     setToggleMessageBox(false);
+    handleMessage("");
     // load high scoresheet
+    fetchHighScores(); // gets array from firebase
+    setTimeout(() => {
+      setShowHighScores(true);
+    }, 2000); // mounts Highscores component
+    // setToggleMessageBox(true);
   };
 
   useEffect(() => {
@@ -156,6 +169,7 @@ const App = () => {
           userName={userName}
         />
       )}
+      {showHighScores && <Highscores topTen={topTen} />}
     </div>
   );
 };

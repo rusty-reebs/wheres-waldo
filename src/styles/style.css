@@ -154,3 +154,17 @@ html {
   margin-top: 0.8rem;
   margin-bottom: 0.2rem;
 }
+
+.Highscores {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem;
+}
+
+.Highscores-user {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}

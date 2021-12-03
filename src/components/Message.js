@@ -14,6 +14,7 @@ const Message = (props) => {
               value={props.userName}
               type="text"
               placeholder="Enter your name..."
+              maxLength={12}
               required={true}
             ></input>
           </form>

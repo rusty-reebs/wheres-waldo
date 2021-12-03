@@ -42,4 +42,23 @@ const addHighScore = (user, numberSeconds, timeString) => {
   );
 };
 
-export { charsArray, addHighScore };
+let topTen;
+const getHighScores = async (db) => {
+  let highScores = [];
+  const querySnapshot = await getDocs(collection(db, "highscores"));
+  querySnapshot.forEach((doc) => {
+    let user = doc.data();
+    highScores.push(user);
+  });
+  highScores.sort((a, b) => a.seconds - b.seconds);
+  topTen = highScores.slice(0, 10);
+  console.log(topTen);
+  //   return highScores;
+  return topTen;
+};
+
+const fetchHighScores = () => {
+  getHighScores(db);
+};
+
+export { charsArray, addHighScore, fetchHighScores, topTen };
