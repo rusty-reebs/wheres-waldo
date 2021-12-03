@@ -13,7 +13,6 @@ const Dropdown = (props) => {
   dropdownLocation["--dropdown-top"] = userY + 90 + "px";
 
   const checkForMatch = (char) => {
-    console.log("you clicked a row!", char);
     let character = charLocations.find((charact) => charact.name === char);
     if (
       userX > gameDimensions.width * character.coords.x * 0.95 &&
@@ -21,7 +20,6 @@ const Dropdown = (props) => {
       userY > gameDimensions.height * character.coords.y * 0.95 &&
       userY < gameDimensions.height * character.coords.y * 1.05
     ) {
-      console.log("you found", character.name);
       setTimeout(() => {
         props.setToggleDropdown(false);
       }, 500);
@@ -30,7 +28,6 @@ const Dropdown = (props) => {
       setTimeout(() => {
         props.setToggleMessageBox(false);
         props.handleFound(character.name);
-        console.log(props.characterState);
       }, 1500);
     } else {
       setTimeout(() => {

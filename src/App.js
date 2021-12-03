@@ -4,11 +4,10 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Dropdown from "./components/Dropdown";
 import Message from "./components/Message";
-import { getTimeString } from "./components/Timer";
-import { charsArray, addHighScore, fetchHighScores, topTen } from "./firebase";
 import Highscores from "./components/Highscores";
-
-console.log(charsArray);
+import { getTimeString } from "./components/Timer";
+import { db, charsArray, addHighScore } from "./firebase";
+import { getDocs, collection } from "@firebase/firestore";
 
 const gameImage = require("./img/waldo-1.jpeg");
 // const imageWaldo = require("./img/waldo-1.png");
@@ -19,7 +18,7 @@ const gameImage = require("./img/waldo-1.jpeg");
 const charState = [
   {
     name: "Waldo",
-    found: true,
+    found: false,
     // image2: imageWaldo,
     image: "/img/waldo-1.png",
   },
@@ -31,7 +30,7 @@ const charState = [
   },
   {
     name: "Wizard",
-    found: true,
+    found: false,
     // image2: imageWizard,
     image: "/img/wizard-1.png",
   },
@@ -56,9 +55,10 @@ const App = () => {
   const [time, setTime] = useState(0);
   const [userName, setUserName] = useState("");
   const [showHighScores, setShowHighScores] = useState(false);
+  const [topScores, setTopScores] = useState([]);
+  const [toggleResetGame, setToggleResetGame] = useState(false);
 
   const gameStart = () => {
-    fetchHighScores();
     handleMessage("Find the characters!");
     setToggleMessageBox(true);
     setTimeout(() => {
@@ -68,14 +68,18 @@ const App = () => {
 
   const gameEnd = () => {
     setTimerOn(false);
-    if (time / 1000 < topTen[9].seconds) {
+    let existingScores = topScores.filter((user) => {
+      if (user.seconds) {
+        return user;
+      } else return false;
+    });
+    if (time / 1000 < existingScores[existingScores.length - 1].seconds) {
       handleMessage("Nice work! A new high score!");
       setToggleMessageBox(true);
       setToggleInput(true);
     } else {
       setShowHighScores(true);
     }
-    // load high scoresheet
   };
 
   const handleInputChange = (e) => {
@@ -89,20 +93,46 @@ const App = () => {
     setToggleInput(false);
     setToggleMessageBox(false);
     handleMessage("");
-    // load high scoresheet
-    fetchHighScores(); // gets array from firebase
-    setTimeout(() => {
-      setShowHighScores(true);
-    }, 2000); // mounts Highscores component
-    // setToggleMessageBox(true);
+    setShowHighScores(true);
+    //! handleCleanDatabase
+  };
+
+  const handleTopScores = (scores) => {
+    setTopScores(scores);
+  };
+
+  const getHighScores = async (db) => {
+    let highScores = [];
+    const querySnapshot = await getDocs(collection(db, "highscores"));
+    querySnapshot.forEach((doc) => {
+      let user = doc.data();
+      highScores.push(user);
+    });
+    highScores.sort((a, b) => a.seconds - b.seconds);
+    let topTen;
+    topTen = highScores.slice(0, 10);
+    console.log(topTen);
+    handleTopScores(topTen);
   };
 
   useEffect(() => {
+    getHighScores(db);
+    setShowHighScores(false);
+    setToggleMessageBox(false);
+    setCharacterState((state) => {
+      const characters = state.map((char) => {
+        char.found = false;
+        return char;
+      });
+      return characters;
+    });
+    console.log(charState);
+    setTime(0);
     gameStart();
     setTimeout(() => {
       setTimerOn(true);
     }, 1500);
-  }, []);
+  }, [toggleResetGame]);
 
   const handleMessage = (msg) => {
     setMessage(msg);
@@ -121,7 +151,6 @@ const App = () => {
       return characters;
     });
     if (characterState.every((char) => char.found === true)) {
-      console.log("game over");
       gameEnd();
     }
   };
@@ -131,10 +160,13 @@ const App = () => {
       gameDimensions = e.target.getBoundingClientRect();
       let x = e.clientX - gameDimensions.left; //x position within the element.
       let y = e.clientY - gameDimensions.top; //y position within the element.
-      console.log("Left? : " + x + " ; Top? : " + y + ".");
       setUserCoords([x, y]);
       toggleDropdown ? setToggleDropdown(false) : setToggleDropdown(true);
     } else return;
+  };
+
+  const handleResetGame = () => {
+    setToggleResetGame((previous) => !previous);
   };
 
   return (
@@ -169,7 +201,14 @@ const App = () => {
           userName={userName}
         />
       )}
-      {showHighScores && <Highscores topTen={topTen} />}
+      {showHighScores && (
+        <Highscores
+          getHighScores={getHighScores}
+          topScores={topScores}
+          handleTopScores={handleTopScores}
+          handleResetGame={handleResetGame}
+        />
+      )}
     </div>
   );
 };
