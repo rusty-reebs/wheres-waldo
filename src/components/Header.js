@@ -4,8 +4,6 @@ import React from "react";
 import Timer from "./Timer";
 
 const Header = (props) => {
-  const characterState = props.characterState;
-
   return (
     <div className="Header">
       <div className="Header-title">
@@ -18,7 +16,7 @@ const Header = (props) => {
         <p>A project coded with React and Firebase</p>
       </div>
       <h3>Left to find:</h3>
-      {characterState.map((char) => (
+      {props.characterState.map((char) => (
         <div
           key={char.name}
           className="Header-char"

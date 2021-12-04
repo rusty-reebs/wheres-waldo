@@ -6,7 +6,7 @@ import Dropdown from "./components/Dropdown";
 import Message from "./components/Message";
 import Highscores from "./components/Highscores";
 import { getTimeString } from "./components/Timer";
-import { db, charsArray, addHighScore } from "./firebase";
+import { db, charLocations, addHighScore } from "./firebase";
 import { getDocs, collection } from "@firebase/firestore";
 
 const gameImage = require("./img/waldo-1.jpeg");
@@ -58,6 +58,24 @@ const App = () => {
   const [topScores, setTopScores] = useState([]);
   const [toggleResetGame, setToggleResetGame] = useState(false);
 
+  useEffect(() => {
+    getHighScores(db);
+    setShowHighScores(false);
+    setToggleMessageBox(false);
+    setCharacterState((state) => {
+      const characters = state.map((char) => {
+        char.found = false;
+        return char;
+      });
+      return characters;
+    });
+    setTime(0);
+    gameStart();
+    setTimeout(() => {
+      setTimerOn(true);
+    }, 1500);
+  }, [toggleResetGame]);
+
   const gameStart = () => {
     handleMessage("Find the characters!");
     setToggleMessageBox(true);
@@ -94,11 +112,6 @@ const App = () => {
     setToggleMessageBox(false);
     handleMessage("");
     setShowHighScores(true);
-    //! handleCleanDatabase
-  };
-
-  const handleTopScores = (scores) => {
-    setTopScores(scores);
   };
 
   const getHighScores = async (db) => {
@@ -109,30 +122,13 @@ const App = () => {
       highScores.push(user);
     });
     highScores.sort((a, b) => a.seconds - b.seconds);
-    let topTen;
-    topTen = highScores.slice(0, 10);
-    console.log(topTen);
+    let topTen = highScores.slice(0, 10);
     handleTopScores(topTen);
   };
 
-  useEffect(() => {
-    getHighScores(db);
-    setShowHighScores(false);
-    setToggleMessageBox(false);
-    setCharacterState((state) => {
-      const characters = state.map((char) => {
-        char.found = false;
-        return char;
-      });
-      return characters;
-    });
-    console.log(charState);
-    setTime(0);
-    gameStart();
-    setTimeout(() => {
-      setTimerOn(true);
-    }, 1500);
-  }, [toggleResetGame]);
+  const handleTopScores = (scores) => {
+    setTopScores(scores);
+  };
 
   const handleMessage = (msg) => {
     setMessage(msg);
@@ -181,12 +177,10 @@ const App = () => {
       {toggleDropdown && (
         <Dropdown
           characterState={characterState}
-          toggleDropdown={toggleDropdown}
           setToggleDropdown={setToggleDropdown}
           userCoords={userCoords}
-          charLocations={charsArray}
+          charLocations={charLocations}
           gameDimensions={gameDimensions}
-          toggleMessageBox={toggleMessageBox}
           setToggleMessageBox={setToggleMessageBox}
           handleMessage={handleMessage}
           handleFound={handleFound}
@@ -205,7 +199,6 @@ const App = () => {
         <Highscores
           getHighScores={getHighScores}
           topScores={topScores}
-          handleTopScores={handleTopScores}
           handleResetGame={handleResetGame}
         />
       )}

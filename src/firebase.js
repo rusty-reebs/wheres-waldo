@@ -16,19 +16,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let charsArray = [];
+let charLocations = [];
 
 const getChars = async (db) => {
   const querySnapshot = await getDocs(collection(db, "characters"));
   querySnapshot.forEach((doc) => {
-    // console.log(doc.id, doc.data());
     let char = {};
     char.name = doc.id;
     char.coords = doc.data();
-    charsArray.push(char);
+    charLocations.push(char);
   });
-  //   console.log(charsArray);
-  return charsArray;
+  return charLocations;
 };
 
 getChars(db);
@@ -42,4 +40,4 @@ const addHighScore = (user, numberSeconds, timeString) => {
   );
 };
 
-export { db, charsArray, addHighScore };
+export { db, charLocations, addHighScore };

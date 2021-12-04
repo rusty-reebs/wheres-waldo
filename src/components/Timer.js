@@ -2,15 +2,7 @@
 
 import React, { useEffect } from "react";
 
-const getTimeString = (sec) => {
-  let seconds = ("0" + (Math.floor(sec / 1000) % 60)).slice(-2);
-  let minutes = ("0" + (Math.floor(sec / 60000) % 60)).slice(-2);
-  let string = minutes + ":" + seconds;
-  return string;
-};
-
 const Timer = (props) => {
-  const timerOn = props.timerOn;
   let seconds = ("0" + (Math.floor(props.time / 1000) % 60)).slice(-2);
   let minutes = ("0" + (Math.floor(props.time / 60000) % 60)).slice(-2);
 
@@ -20,11 +12,11 @@ const Timer = (props) => {
       interval = setInterval(() => {
         props.setTime((prevTime) => prevTime + 1000);
       }, 1000);
-    } else if (!timerOn) {
+    } else if (!props.timerOn) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [timerOn]);
+  }, [props.timerOn]);
 
   return (
     <div className="Timer">
@@ -42,6 +34,13 @@ const Timer = (props) => {
       </div>
     </div>
   );
+};
+
+const getTimeString = (sec) => {
+  let seconds = ("0" + (Math.floor(sec / 1000) % 60)).slice(-2);
+  let minutes = ("0" + (Math.floor(sec / 60000) % 60)).slice(-2);
+  let string = minutes + ":" + seconds;
+  return string;
 };
 
 export default Timer;
