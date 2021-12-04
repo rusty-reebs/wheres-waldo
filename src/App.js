@@ -10,35 +10,31 @@ import { db, charLocations, addHighScore } from "./firebase";
 import { getDocs, collection } from "@firebase/firestore";
 
 const gameImage = require("./img/waldo-1.jpeg");
-// const imageWaldo = require("./img/waldo-1.png");
-// const imageWenda = require("./img/wenda-1.png");
-// const imageWizard = require("./img/wizard-1.png");
-// const imageOdlaw = require("./img/odlaw-1.png");
+const imageWaldo = require("./img/waldo-1.png");
+const imageWenda = require("./img/wenda-1.png");
+const imageWizard = require("./img/wizard-1.png");
+const imageOdlaw = require("./img/odlaw-1.png");
 
 const charState = [
   {
     name: "Waldo",
     found: false,
-    // image2: imageWaldo,
-    image: "/img/waldo-1.png",
+    image: imageWaldo.default,
   },
   {
     name: "Wenda",
     found: false,
-    // image2: imageWenda,
-    image: "/img/wenda-1.png",
+    image: imageWenda.default,
   },
   {
     name: "Wizard",
     found: false,
-    // image2: imageWizard,
-    image: "/img/wizard-1.png",
+    image: imageWizard.default,
   },
   {
     name: "Odlaw",
     found: false,
-    // image2: imageOdlaw,
-    image: "/img/odlaw-1.png",
+    image: imageOdlaw.default,
   },
 ];
 
