@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/wheres-waldo/static/css/main.6cea9de1.chunk.css",
+    "main.css": "/wheres-waldo/static/css/main.1d911144.chunk.css",
     "main.js": "/wheres-waldo/static/js/main.abb05472.chunk.js",
     "main.js.map": "/wheres-waldo/static/js/main.abb05472.chunk.js.map",
     "runtime-main.js": "/wheres-waldo/static/js/runtime-main.605518af.js",
@@ -8,7 +8,7 @@
     "static/js/2.655d39d1.chunk.js": "/wheres-waldo/static/js/2.655d39d1.chunk.js",
     "static/js/2.655d39d1.chunk.js.map": "/wheres-waldo/static/js/2.655d39d1.chunk.js.map",
     "index.html": "/wheres-waldo/index.html",
-    "static/css/main.6cea9de1.chunk.css.map": "/wheres-waldo/static/css/main.6cea9de1.chunk.css.map",
+    "static/css/main.1d911144.chunk.css.map": "/wheres-waldo/static/css/main.1d911144.chunk.css.map",
     "static/js/2.655d39d1.chunk.js.LICENSE.txt": "/wheres-waldo/static/js/2.655d39d1.chunk.js.LICENSE.txt",
     "static/media/odlaw-1.png": "/wheres-waldo/static/media/odlaw-1.a6ed0195.png",
     "static/media/waldo-1.png": "/wheres-waldo/static/media/waldo-1.7c381ca4.png",
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.605518af.js",
     "static/js/2.655d39d1.chunk.js",
-    "static/css/main.6cea9de1.chunk.css",
+    "static/css/main.1d911144.chunk.css",
     "static/js/main.abb05472.chunk.js"
   ]
 }
