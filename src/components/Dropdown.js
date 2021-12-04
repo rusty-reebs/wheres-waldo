@@ -15,28 +15,24 @@ const Dropdown = (props) => {
   const checkForMatch = (char) => {
     let character = charLocations.find((charact) => charact.name === char);
     if (
-      userX > gameDimensions.width * character.coords.x * 0.95 &&
-      userX < gameDimensions.width * character.coords.x * 1.05 &&
-      userY > gameDimensions.height * character.coords.y * 0.95 &&
-      userY < gameDimensions.height * character.coords.y * 1.05
+      userX > gameDimensions.width * character.coords.x * 0.92 &&
+      userX < gameDimensions.width * character.coords.x * 1.08 &&
+      userY > gameDimensions.height * character.coords.y * 0.92 &&
+      userY < gameDimensions.height * character.coords.y * 1.08
     ) {
-      setTimeout(() => {
-        props.setToggleDropdown(false);
-      }, 500);
       props.handleMessage("You found " + character.name + "!");
       props.setToggleMessageBox(true);
       setTimeout(() => {
         props.setToggleMessageBox(false);
+        props.setToggleDropdown(false);
         props.handleFound(character.name);
       }, 1500);
     } else {
-      setTimeout(() => {
-        props.setToggleDropdown(false);
-      }, 500);
       props.handleMessage("That's not " + character.name + "!");
       props.setToggleMessageBox(true);
       setTimeout(() => {
         props.setToggleMessageBox(false);
+        props.setToggleDropdown(false);
       }, 1500);
     }
   };
