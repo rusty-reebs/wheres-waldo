@@ -170,9 +170,13 @@ html {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (orientation: landscape) and (max-width: 850px) {
   * {
     font-size: smaller;
+  }
+
+  .Header {
+    display: flex;
   }
 
   .Header-title h1 {
@@ -208,5 +212,46 @@ html {
 
   .reset {
     font-size: small;
+  }
+}
+
+@media only screen and (orientation: portrait) {
+  * {
+    font-size: xx-small;
+  }
+
+  .App img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .Header {
+    max-height: 8vh;
+    display: flex;
+    width: 100%;
+  }
+
+  .Header-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 20vw;
+  }
+  .Header-char {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .Header img {
+    height: 1.5rem;
+  }
+
+  .Timer-minutes {
+    width: 1rem;
+  }
+
+  .Timer-seconds {
+    width: 1rem;
   }
 }
