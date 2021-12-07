@@ -14,7 +14,7 @@ Objectives: build a photo tagging app utilizing React on the front end and a Fir
 ### Screenshots
 -----
 
-<img src="./screenshots/screenshot-waldo1.jpg" height="250px">&nbsp;&nbsp;&nbsp;<img src="./screenshots/screenshot-waldo2.jpg" height="250px">
+<img src="./screenshots/screenshot-waldo1.jpg" height="250px">&nbsp;&nbsp;<img src="./screenshots/screenshot-waldo2.jpg" height="250px">
 
 ### TIL Things I Learned
 -----
